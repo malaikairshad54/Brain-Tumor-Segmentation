@@ -1,0 +1,36 @@
+﻿python : Traceback (most 
+recent call last):
+At line:1 char:1
++ python test_model.py 2>&1 
+| Out-File -FilePath 
+test_output.txt -Encod ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Traceba  
+  ck (most recent call las   
+ t)::String) [], RemoteEx    
+ception
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+  File "D:\BSCS\Brain Tumor P
+roject\TB_WBSITE\test_model.p
+y", line 17, in <module>
+    print("\u2705 Model 
+loaded successfully\n")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\enco
+dings\cp1252.py", line 19, 
+in encode
+    return codecs.charmap_enc
+ode(input,self.errors,encodin
+g_table)[0]
+           ~~~~~~~~~~~~~~~~~~
+~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^
+UnicodeEncodeError: 
+'charmap' codec can't encode 
+character '\u2705' in 
+position 0: character maps 
+to <undefined>

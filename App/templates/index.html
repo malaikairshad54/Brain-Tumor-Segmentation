@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroSeg | AI Brain Tumor Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="NeuroSeg Logo" style="height: 60px;">
+                <div>
+                    <h1>NeuroSeg AI</h1>
+                    <p class="subtitle">Advanced Brain Tumor Segmentation using U-Net</p>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <p style="color: var(--primary);">Model: Unet2D (Dice: 0.78)</p>
+                <p class="subtitle">Status: Online</p>
+            </div>
+        </header>
+
+        <div class="grid">
+            <!-- Upload Section -->
+            <div class="card">
+                <h2>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    Upload MRI Scans
+                </h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                    Please upload the corresponding slices for all 4 modalities to get an accurate prediction.
+                    Supported formats: .png, .jpg, .jpeg, .nii.gz (max 1GB total)
+                </p>
+
+                <form action="/" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <div class="upload-group">
+                        <label>FLAIR Modality</label>
+                        <input type="file" name="flair" required>
+                    </div>
+                    <div class="upload-group">
+                        <label>T1 Modality</label>
+                        <input type="file" name="t1" required>
+                    </div>
+                    <div class="upload-group">
+                        <label>T1ce Modality</label>
+                        <input type="file" name="t1ce" required>
+                    </div>
+                    <div class="upload-group">
+                        <label>T2 Modality</label>
+                        <input type="file" name="t2" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary" onclick="showLoader()">Run Segmentation</button>
+                    <div class="loader" id="loader"></div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="card result-display">
+                <h2>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Analysis Results
+                </h2>
+
+                {% if prediction_image %}
+                <div class="prediction-box">
+                    <img src="data:image/png;base64,{{ prediction_image }}" alt="Segmentation Result">
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-val">{{ tumor_percentage }}%</span>
+                        <span class="stat-label">Tumor Coverage</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">{{ inference_time }}s</span>
+                        <span class="stat-label">Inference Time</span>
+                    </div>
+                </div>
+                {% if has_tumor %}
+                <div
+                    style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 50, 50, 0.1); border: 1px solid rgba(255, 50, 50, 0.3); border-radius: 12px; color: #ff6b6b;">
+                    ⚠️ Tumor Detected
+                </div>
+                {% else %}
+                <div
+                    style="margin-top: 1.5rem; padding: 1rem; background: rgba(50, 255, 100, 0.1); border: 1px solid rgba(50, 255, 100, 0.3); border-radius: 12px; color: #5eff8b;">
+                    ✅ No Tumor Detected
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="prediction-box"
+                    style="display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
+                    <p style="color: var(--text-muted);">Upload scans to view analysis</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLoader() {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'block';
+
+            // Optional: Validate file sizes before upload
+            const files = document.querySelectorAll('input[type="file"]');
+            let totalSize = 0;
+
+            files.forEach(input => {
+                if (input.files.length > 0) {
+                    totalSize += input.files[0].size;
+                }
+            });
+
+            // Convert to MB
+            const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+            console.log(`Total upload size: ${sizeMB} MB`);
+
+            if (totalSize > 1024 * 1024 * 1024) {
+                alert(`Files too large (${sizeMB} MB). Maximum is 1 GB.`);
+                loader.style.display = 'none';
+                return false;
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | NeuroSeg AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            NeuroSeg AI
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('home_redirect') }}" class="nav-item">Home</a>
+            <a href="{{ url_for('about') }}" class="nav-item">About</a>
+            <a href="{{ url_for('index') }}" class="btn-nav">Start Analysis</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="about-section">
+            <div class="about-header">
+                <h1>About NeuroSeg AI</h1>
+                <p class="subtitle">Understanding our brain tumor detection technology</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>What is Brain Tumor Segmentation?</h3>
+                    <p>
+                        Brain tumor segmentation is the process of identifying and delineating tumor regions in medical
+                        images, specifically MRI scans. This is crucial for diagnosis, treatment planning, and monitoring
+                        disease progression. Manual segmentation is time-consuming and subject to inter-observer variability,
+                        making automated solutions essential.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Our AI Technology</h3>
+                    <p>
+                        We utilize a U-Net convolutional neural network architecture, which is specifically designed for
+                        biomedical image segmentation tasks. The model was trained on the BraTS (Brain Tumor Segmentation)
+                        dataset, achieving a Dice coefficient of 0.78, indicating high accuracy in tumor boundary detection.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h3>MRI Modalities Used</h3>
+                    <p>
+                        Our system processes four complementary MRI sequences: FLAIR, T1-weighted, T1-weighted with
+                        contrast enhancement (T1ce), and T2-weighted images. Each modality provides unique information
+                        about different tissue characteristics, enabling comprehensive tumor analysis.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Performance Metrics</h3>
+                    <p>
+                        The model achieves 78% Dice similarity coefficient, processes images in under 3 seconds,
+                        and provides quantitative tumor burden assessment. The segmentation results are visualized
+                        with color overlays for easy interpretation by medical professionals.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Clinical Applications</h3>
+                    <p>
+                        This technology assists radiologists in tumor detection, helps plan surgical interventions,
+                        monitors treatment response, and supports research in neuro-oncology. It serves as a valuable
+                        second opinion tool in clinical decision-making processes.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Technical Implementation</h3>
+                    <p>
+                        Built with PyTorch and Flask, the application features a web-based interface for easy access.
+                        The backend handles image preprocessing, model inference, and result visualization. The system
+                        is designed for scalability and can be integrated into existing hospital workflows.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tech-details">
+                <h2>Technical Details</h2>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <h4>Model Architecture</h4>
+                        <p>U-Net with encoder-decoder structure, optimized for 2D brain MRI segmentation</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>Training Dataset</h4>
+                        <p>BraTS 2020 dataset with multi-institutional, multi-modal MRI data</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>Input Resolution</h4>
+                        <p>192x192 pixels per slice, supporting both 2D and 3D NIfTI formats</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>Output Format</h4>
+                        <p>Binary segmentation masks with tumor probability maps</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Ready to Get Started?</h2>
+                <p>Experience the power of AI-assisted brain tumor detection</p>
+                <a href="{{ url_for('index') }}" class="btn btn-lg btn-primary">
+                    <i class="fas fa-play"></i>
+                    Start Analysis
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <style>
+        .about-section {
+            padding: 4rem 0;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .about-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .about-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 10px var(--primary-glow));
+        }
+
+        .about-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .about-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .tech-details {
+            margin-bottom: 4rem;
+        }
+
+        .tech-details h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tech-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-header h1 {
+                font-size: 2rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+
+</html>
