@@ -6,7 +6,6 @@
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)
 ![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-EE4C2C?style=for-the-badge&logo=pytorch)
 ![Flask](https://img.shields.io/badge/Flask-Web%20App-black?style=for-the-badge&logo=flask)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 **An AI-powered web application for automated brain tumor detection and segmentation from multi-modal MRI scans using a custom U-Net deep learning model.**
 
@@ -340,10 +339,6 @@ python verify_prediction.py
 [![GitHub](https://img.shields.io/badge/GitHub-malaikairshad54-181717?style=flat&logo=github)](https://github.com/malaikairshad54)
 
 ---
-
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
